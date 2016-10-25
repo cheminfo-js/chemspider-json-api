@@ -14,6 +14,6 @@ describe('test queries', function () {
             searchOptions:{
                 QueryText: 'Aspirin'
             }
-        }).then(console.log);
+        });
     });
 });
