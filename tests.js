@@ -9,11 +9,33 @@ describe('test queries', function () {
         });
     });
 
-    it('Request that pings chemspider until rid has a value', function () {
-        return chemspider.simpleSearchCompounds({
-            searchOptions:{
-                QueryText: 'Aspirin'
+    it('Search compounds (SimpleSearch)', function () {
+        return chemspider.search({
+            searchMethod: 'SimpleSearch',
+            searchOptions: {
+                searchOptions: {
+                    QueryText: 'CCCCC'
+                }
             }
         });
+    });
+
+    it('Should use a valid default search and result method', function () {
+        return chemspider.search({
+            searchOptions: {
+                searchOptions: {
+                    QueryText: 'CCCCC'
+                }
+            }
+        });
+    });
+
+
+    it('Invalid search method should fail', function () {
+        return chemspider.search({searchMethod: 'InvalidSearchMethod'}).should.be.rejectedWith(/Invalid search method/);
+    });
+
+    it('Invalid result method should fail', function () {
+        return chemspider.search({resultMethod: 'InvalidResultMethod'}).should.be.rejectedWith(/Invalid result method/);
     });
 });

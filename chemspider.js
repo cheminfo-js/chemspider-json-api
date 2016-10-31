@@ -1,13 +1,14 @@
 'use strict';
 
 const superagent = require('superagent');
-const chemspiderUrl = `https://www.cheminfo.org/chemspider/JSON.ashx`;
+const constants = require('./constants');
+
 
 exports = module.exports = {
     query: function (operation, options) {
         if (!operation) throw new Error('Operation paramater is mandatory');
         options = options || {};
-        var queryUrl = chemspiderUrl + `?op=${operation}`;
+        var queryUrl = constants.chemspiderUrl + `?op=${operation}`;
         return superagent.post(queryUrl).send(options).then(res => res.text);
     },
 
@@ -30,15 +31,26 @@ exports = module.exports = {
         return exports.query(operation, options).then(text => JSON.parse(text));
     },
 
-    simpleSearchCompounds: function (options) {
-        return exports.query('SimpleSearch', options).then(rid => {
-            return exports.queryWithRid('GetSearchResult', {
+    search: function(options) {
+        options = options || {};
+        var searchMethod = options.searchMethod || 'SimpleSearch';
+        var resultMethod = options.resultMethod || 'GetSearchResultAsCompounds';
+        var searchOptions = options.searchOptions || {};
+        var resultOptions = options.resultOptions || {};
+
+        // We expect a search searchMethod that returns a cid
+        if(!constants.searchMethods.includes(searchMethod)) {
+            return Promise.reject(new Error('Invalid search method'));
+        }
+
+        if(!constants.resultMethods.includes(resultMethod)) {
+            return Promise.reject(new Error('Invalid result method'));
+        }
+
+        return exports.query(searchMethod, searchOptions).then(rid => {
+            return exports.queryWithRid(resultMethod, Object.assign({}, resultOptions, {
                 rid: rid
-            });
-        }).then(csids => {
-            return exports.query('GetRecordsAsCompounds', {
-                csids: csids
-            });
+            }));
         });
     }
 };
