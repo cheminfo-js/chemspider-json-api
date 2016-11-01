@@ -7,9 +7,9 @@ const constants = require('./constants');
 exports = module.exports = {
     query: function (operation, options) {
         if (!operation) throw new Error('Operation paramater is mandatory');
-        options = options || {};
-        var queryUrl = constants.chemspiderUrl + `?op=${operation}`;
-        return superagent.post(queryUrl).send(options).then(res => res.text);
+        options = Object.assign({}, options);
+        var queryUrl = constructUrl(operation, options);
+        return superagent.get(queryUrl).then(res => res.text);
     },
 
     queryWithRid: function (operation, options) {
@@ -67,7 +67,32 @@ function getType(data) {
     return Object.prototype.toString.call(data).slice(8, -1);
 }
 
+function constructUrl(operation, options, url) {
+    var root = false;
+    if (!url) {
+        root = true;
+        url = constants.chemspiderUrl + `?op=${operation}`;
+    }
+    var type = getType(options);
+    if (type === 'Object') {
+        var keys = Object.keys(options);
+        for (var i = 0; i < keys.length; i++) {
+            if (root) {
+                url = constructUrl(keys[i], options[keys[i]], url);
+            } else {
+                url = constructUrl(`${operation}.${keys[i]}`, options[keys[i]], url);
+            }
 
+        }
+    } else if (type === 'Array') {
+        for (var i = 0; i < options.length; i++) {
+            url = url + `&${operation}[${i}]=${options[i]}`;
+        }
+    } else {
+        url = url + `&${operation}=${options}`
+    }
+    return url;
+}
 
 
 
