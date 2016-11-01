@@ -4,7 +4,7 @@
   },
   "name": "chemspider-json-api",
   "description": "Facilitated access to chemspider \"RESTful\" json api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "chemspider.js",
   "devDependencies": {
     "cheminfo-tools": "^1.10.1",
