@@ -31,6 +31,29 @@ exports = module.exports = {
         return exports.query(operation, options).then(text => JSON.parse(text));
     },
 
+    /**
+     * Search chemspider
+     * @param {object} [options={}]
+     * @param {string} [options.searchMethod=SimpleSearch] The chemspider search method. The possible search methods are:
+     * {@link https://www.chemspider.com/JSON.ashx#SimpleSearch SimpleSearch},
+     * {@link https://www.chemspider.com/JSON.ashx#ExactStructureSearch ExactStructureSearch},
+     * {@link https://www.chemspider.com/JSON.ashx#SubstructureSearch SubstructureSearch},
+     * {@link https://www.chemspider.com/JSON.ashx#SimilaritySearch SimilaritySearch},
+     * {@link https://www.chemspider.com/JSON.ashx#IntrinsicPropertiesSearch IntrinsicPropertiesSearch},
+     * {@link https://www.chemspider.com/JSON.ashx#DataSourceSearch DataSourceSearch},
+     * {@link https://www.chemspider.com/JSON.ashx#ElementsSearch ElementsSearch},
+     * {@link https://www.chemspider.com/JSON.ashx#PredictedPropertiesSearch PredictedPropertiesSearch},
+     * {@link https://www.chemspider.com/JSON.ashx#AdvancedSearch AdvancedSearch}
+     * @param {string} [options.resultMethod=GetSearchResultAsCompound] The chemspider result method. The possible result methods are:
+     * {@link https://www.chemspider.com/JSON.ashx#GetSearchStatus GetSearchStatus},
+     * {@link https://www.chemspider.com/JSON.ashx#GetSearchResult GetSearchResult},
+     * {@link https://www.chemspider.com/JSON.ashx#GetSearchResultWithRelevance GetSearchResultWithRelevance},
+     * {@link https://www.chemspider.com/JSON.ashx#GetSearchResultAsCompounds GetSearchResultAsCompounds},
+     * {@link https://www.chemspider.com/JSON.ashx#GetSearchResultAsSdf GetSearchResultAsSdf}
+     * @param {object} [options.searchOptions={}] Chemspider search options
+     * @param {object} [options.resultOptions={}] Chemspider result options
+     * @returns {Promise<Object>} Chemspider's response
+     */
     search: function(options) {
         options = options || {};
         var searchMethod = options.searchMethod || 'SimpleSearch';
