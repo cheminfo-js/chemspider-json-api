@@ -7,7 +7,7 @@
   "version": "0.0.2",
   "main": "chemspider.js",
   "devDependencies": {
-    "cheminfo-tools": "^1.10.1",
+    "cheminfo-tools": "^1.11.0",
     "mocha": "^3.1.2",
     "mocha-better-spec-reporter": "^3.0.2",
     "should": "^11.1.1"
