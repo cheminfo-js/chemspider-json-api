@@ -1,5 +1,5 @@
 'use strict';
-const chemspider = require('.');
+const chemspider = require('..');
 
 describe('test queries', function () {
     it('Simple request that returns a rid', function () {
