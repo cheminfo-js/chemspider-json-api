@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "superagent": "^2.3.0"
+    "superagent": "^3.5.2"
   },
   "name": "chemspider-json-api",
   "description": "Facilitated access to chemspider \"RESTful\" json api",

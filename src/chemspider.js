@@ -6,7 +6,7 @@ const constants = require('./constants');
 
 exports = module.exports = {
     query: function (operation, options) {
-        if (!operation) throw new Error('Operation paramater is mandatory');
+        if (!operation) throw new Error('Operation parameter is mandatory');
         options = Object.assign({}, options);
         var queryUrl = constructUrl(operation, options);
         return superagent
