@@ -9,7 +9,10 @@ exports = module.exports = {
         if (!operation) throw new Error('Operation paramater is mandatory');
         options = Object.assign({}, options);
         var queryUrl = constructUrl(operation, options);
-        return superagent.get(queryUrl).then(res => res.text);
+        return superagent
+            .get(queryUrl)
+            .timeout({response: 20000})
+            .then(res => res.text);
     },
 
     queryWithRid: function (operation, options) {
@@ -20,7 +23,7 @@ exports = module.exports = {
 
         function handleError(err) {
             rep++;
-            if (rep === maxRep) return Promise.reject(err);
+            if (rep === maxRep || err.timeout) return Promise.reject(err);
             return wait(interval)
                 .then(() => exports.queryJSON(operation, options))
                 .then(null, handleError);
